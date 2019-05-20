@@ -1,5 +1,7 @@
 clear
 
+
+
 [filename, pathname] = uigetfile({'*.dwh'},'Select record file' ,'MultiSelect', 'on');
 
 gps_date = [];
@@ -47,6 +49,8 @@ acc3  = [];
 
 % % for loop to add every dwh file after the first one into a combined answer
 % % which fits into channels.data
+
+
 for i = 1: length(filename)
 
     Data_string  = [pathname , '\', filename{i}]
@@ -59,7 +63,6 @@ for i = 1: length(filename)
         gps_longitude = [gps_longitude;channels{4}.data];
         gps_speed = [gps_speed;channels{5}.data];
     end
-    
     if fileheader.ftast == 200
     %proximity sensors
         ps1  = [ps1; channels{1}.data];
@@ -88,7 +91,6 @@ for i = 1: length(filename)
 
         speed  = [speed; channels{12}.data];
     end
-    
     %for 1000Hz files
     if fileheader.ftast == 1000 && fileheader.AzCh == 6
         sg1  = [sg1; channels{1}.data];
@@ -98,7 +100,6 @@ for i = 1: length(filename)
         sg5  = [sg5; channels{5}.data];
         sg6  = [sg6; channels{6}.data];
     end
-    
     if fileheader.ftast == 1000 && fileheader.AzCh == 3
         acc1  = [acc1; channels{1}.data];
         acc2  = [acc2; channels{2}.data];
@@ -106,4 +107,45 @@ for i = 1: length(filename)
     end
     
 end
- 
+% 
+% % for loop to display the mean values of each gauge (combined values) and
+% % to graph each gauge's values against time.
+% 
+% time_array = (1:length(channels{1,1}.data));
+%  
+% % channel_c_list = zeros(1,length(channels));
+% TT = zeros(1,length(channels));
+% fprintf('\n\n');
+% 
+% for i = 1:length(channels)  
+%     
+%     str = channels{i}.Ch_Alias;
+%     mean_val = mean(channels{i,1}.data);
+%     min_val = min(channels{i,1}.data);
+%     max_val = max(channels{i,1}.data);
+%     dimm_val = channels{i}.Ch_Dimension;
+%     fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n',str,mean_val,dimm_val, max_val - min_val);
+%     figure
+%     plot( channels{i,1}.data);
+%     title(str);
+%     ylabel(dimm_val);   
+%     
+%     [c,hist,edges,rmm,idx] = rainflow(channels{i,1}.data , time_array);
+% %     TT(i) = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
+%     TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
+%     
+% end
+% 
+% % for i = 1: length(c
+% % TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
+% 
+% % % channel= length(channels{1,1}.data));
+% %  time_array = (1:length(channels{1,1}.data));
+% %  
+% %  [c,hist,edges,rmm,idx] = rainflow(Z,t);
+% %  
+% % for i = 1: length(channels{1,1}.data)
+% %     [c,hist,edges,rmm,idx] = rainflow(Z,t);
+% 
+% 
+% 
