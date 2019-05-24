@@ -3,7 +3,7 @@ clear
 
 
 [filename, pathname] = uigetfile({'*.dwh'},'Select record file' ,'MultiSelect', 'on');
-
+%hello!
 gps_date = [];
 gps_time = [];
 gps_latitude = [];
