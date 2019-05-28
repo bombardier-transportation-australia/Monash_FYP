@@ -56,6 +56,7 @@ fileheader.SamplesPerCh = str2double(val(2:end));
 tline = fgetl(fileID);
 [~,val] = strtok(tline, '=');
 fileheader.ftast = str2double(val(2:end));
+fileheader.t = [];
 
 channels = cell(fileheader.AzCh,1);
 channels{1} = struct('Ch_Alias','','Ch_Gain',0.0,'ModuleType',0,'Ch_Zero',0.0,'Ch_Dimension','','LSBWeight',0,'Offset',0);
@@ -131,8 +132,13 @@ if ~headerOnly
         channels{i}.data = rawMatrix(:,i);
         end
     end
-
-    
+    %create a time signal extrapolating the timestamp and using the
+    %sampling rate in Matlab datenum format
+    datestring = strtrim([fileheader.Date, ' ', fileheader.Time]);
+    t_lbound = datenum(datetime(datestring,'InputFormat','yy.MM.dd HH:mm:ss'));
+    t_ubound = t_lbound + (length(channels{1}.data) - 1) * 1/fileheader.ftast * 1/86400;
+    t = t_lbound: 1/fileheader.ftast * 1/86400: t_ubound;
+    fileheader.t = t;
     clear rawMatrix A tline val i filepath filefolder Data_Path rowwise fileID
 else
     fclose(fileID);
