@@ -19,7 +19,7 @@ length_1hz = 0;
 length_200hz = 0;
 length_1000hz = 0;
 length_2000hz = 0;
-
+f = waitbar(0, 'loading headers');
 for i=1:height(files)
     path  = [files.folder{i} , '\', files.name{i}];
     %load the header of each file
@@ -42,7 +42,9 @@ for i=1:height(files)
     if fileheader.ftast == 1000 && fileheader.AzCh == 3
         length_2000hz = length_2000hz + fileheader.SamplesPerCh;
     end
+    waitbar(i/height(files),f);
 end
+close(f);
 %approximate total lengths. A padding of 10% is added because samplesPerCh
 %is innacurate
 length_1hz = ceil(length_1hz * 1.001);
@@ -111,6 +113,7 @@ position_1hz = 1;
 position_200hz = 1;
 position_1000hz = 1;
 position_2000hz = 1;
+f = waitbar(0, 'loading files');
 for i = 1: height(files)
 
     path  = [files.folder{i} , '\', files.name{i}];
@@ -186,9 +189,9 @@ for i = 1: height(files)
         
         position_2000hz = position_2000hz + record_length;
     end
-    
+    waitbar(i/height(files),f);
 end
-
+close(f);
 
 % 
 % % for loop to display the mean values of each gauge (combined values) and
