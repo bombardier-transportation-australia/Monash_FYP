@@ -192,7 +192,62 @@ for i = 1: height(files)
     waitbar(i/height(files),f);
 end
 close(f);
+%%
+load('LPFNum200Hz.mat');
+load('LPFNum1000Hz.mat');
 
+%create "filtered" sensor gauges
+fsg1 = conv(sg1,Num1000Hz);
+fsg1 = fsg1(1:length(sg1));
+
+fsg2 = conv(sg2,Num1000Hz);
+fsg2 = fsg2(1:length(sg2));
+
+fsg3 = conv(sg3,Num1000Hz);
+fsg3 = fsg3(1:length(sg3));
+
+fsg4 = conv(sg4,Num1000Hz);
+fsg4 = fsg4(1:length(sg4));
+
+fsg5 = conv(sg5,Num1000Hz);
+fsg5 = fsg5(1:length(sg5));
+
+fsg6 = conv(sg6,Num1000Hz);
+fsg6 = fsg6(1:length(sg6));
+
+
+
+
+fsg7 = conv(sg7,Num200Hz);
+fsg7 = fsg7(1:length(sg7));
+
+fsg8 = conv(sg8,Num200Hz);
+fsg8 = fsg8(1:length(sg8));
+
+fsg9 = conv(sg9,Num200Hz);
+fsg9 = fsg9(1:length(sg9));
+
+fsg10 = conv(sg10,Num200Hz);
+fsg10 = fsg10(1:length(sg10));
+
+fsg11 = conv(sg11,Num200Hz);
+fsg11 = fsg11(1:length(sg11));
+
+fsg12 = conv(sg12,Num200Hz);
+fsg12 = fsg12(1:length(sg12));
+
+fsg13 = conv(sg13,Num200Hz);
+fsg13 = fsg13(1:length(sg13));
+
+fsg14 = conv(sg14,Num200Hz);
+fsg14 = fsg14(1:length(sg14));
+
+fsg15 = conv(sg15,Num200Hz);
+fsg15 = fsg15(1:length(sg15));
+
+fsg16 = conv(sg16,Num200Hz);
+fsg16 = fsg16(1:length(sg16));
+%%
 % 
 % % for loop to display the mean values of each gauge (combined values) and
 % % to graph each gauge's values against time.
