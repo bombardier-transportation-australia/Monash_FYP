@@ -1,15 +1,10 @@
-
-
-
-clear
-
-
-%% block1
+%% AllocateMemory
 %Let user select root folder
 
 %TODO: ADD ABILITY TO HAVE MULTIPLE ROOT FOLDERS SO THAT A WEEK'S WORTH OF
 %DATA CAN BE SELECTED
 folder = uigetdir('.');
+
 %Make a table with all the .dwh files contained within the root folder,
 %including subfolders
 files = struct2table(dir([folder,'\**\*.dwh']));
@@ -20,6 +15,7 @@ length_200hz = 0;
 length_1000hz = 0;
 length_2000hz = 0;
 f = waitbar(0, 'loading headers');
+%read headers to preassign memory space
 for i=1:height(files)
     path  = [files.folder{i} , '\', files.name{i}];
     %load the header of each file
@@ -45,7 +41,7 @@ for i=1:height(files)
     waitbar(i/height(files),f);
 end
 close(f);
-%approximate total lengths. A padding of 10% is added because samplesPerCh
+%approximate total lengths. A padding of 0.1% is added because samplesPerCh
 %is innacurate
 length_1hz = ceil(length_1hz * 1.001);
 length_200hz = ceil(length_200hz * 1.001);
@@ -55,7 +51,7 @@ clear datestring i fileheader
 %sort files by timestamp
 files = sortrows(files, 'datenum'); 
 
-%%
+
 %initialise all variables
 t_1hz = zeros(length_1hz, 0);
 gps_date = zeros(length_1hz, 0);
@@ -72,7 +68,7 @@ for i = 1:3
 end
 %secondary suspension sensors
 for i = 1:6
-    ss{i} = zeros(length_200hz, 0);
+    ss{i} = zeros(length_1000hz, 0);
 end
 %Sensor gauges
 for i = 7:16
@@ -94,9 +90,8 @@ acc1  = zeros(length_2000hz, 0);
 acc2  = zeros(length_2000hz, 0);
 acc3  = zeros(length_2000hz, 0);
 
-
-% % for loop to add every dwh file after the first one into a combined answer
-% % which fits into channels.data
+%% Accumulate data
+%accumulate instrumentation data
 
 position_1hz = 1;
 position_200hz = 1;
@@ -108,6 +103,7 @@ for i = 1: height(files)
     path  = [files.folder{i} , '\', files.name{i}];
 
     [channels, fileheader] = loadDWHv4(path);  
+    %if the file is a 1Hz file
     if fileheader.ftast == 1
         record_length = length(channels{1}.data);
         t_1hz(position_1hz:position_1hz + record_length - 1) = fileheader.t';
@@ -119,6 +115,7 @@ for i = 1: height(files)
 
         position_1hz = position_1hz + record_length;
     end
+    %if the file is a 200Hz
     if fileheader.ftast == 200
         record_length = length(channels{1}.data);
         t_200hz(position_200hz:position_200hz + record_length - 1) = fileheader.t';
@@ -166,62 +163,56 @@ for i = 1: height(files)
     waitbar(i/height(files),f);
 end
 close(f);
-%%
+
+%% FilterStrainGauges
 load('LPFNum200Hz.mat');
 load('LPFNum1000Hz.mat');
 
 %create "filtered" sensor gauges
+f = waitbar(0, 'filtering strain gauges');
 for i = 1:6
     fsg{i} = conv(sg{i},Num1000Hz);
     fsg{i} = fsg{i}(1:length(sg{i}));
+    waitbar(i/6,f);
 end
 
 for i = 7:16
     fsg{i} = conv(sg{i},Num200Hz);
     fsg{i} = fsg{i}(1:length(sg{i}));
+    waitbar((i-6)/6,f);
 end
+close(f)
 
-
-%%
+%% Perform Rainflow
 
 % for loop to display the mean values of each gauge (combined values) and
 % to graph each gauge's values against time.
 
-time_array = (1:length(channels{1,1}.data));
- 
-% channel_c_list = zeros(1,length(channels));
-TT = zeros(1,length(channels));
-fprintf('\n\n');
-
-for i = 1:length(fsg)  
+%for SG1-6 (1000Hz)
+f = waitbar(0, 'performing rainflow count');
+for i = 1:6  
     
-%     str = channels{i}.Ch_Alias;
+    str = ['Strain Gauge ', int2str(i)];
     mean_val = mean(fsg{i});
     min_val = min(fsg{i});
     max_val = max(fsg{i});
-%     dimm_val = channels{i}.Ch_Dimension;
-    fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n',str,mean_val,dimm_val, max_val - min_val);
-    figure
-    plot( fsg{i});
-%     title(str);
-%     ylabel(dimm_val);   
-    
-    [c,hist,edges,rmm,idx] = rainflow(channels{i,1}.data , time_array);
-%     TT(i) = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
-    TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
-    
+    dimm_val = 'um/m';
+    fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n %s',str,mean_val, dimm_val, max_val - min_val, dimm_val);
+    [fsgrf{i}.c,fsgrf{i}.hist,fsgrf{i}.edges,fsgrf{i}.rmm,fsgrf{i}.idx] = rainflow(fsg{i} , t_1000hz); 
+    waitbar(i/6,f);
 end
 
-% for i = 1: length(c
-% TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
-
-% % channel= length(channels{1,1}.data));
-%  time_array = (1:length(channels{1,1}.data));
-%  
-%  [c,hist,edges,rmm,idx] = rainflow(Z,t);
-%  
-% for i = 1: length(channels{1,1}.data)
-%     [c,hist,edges,rmm,idx] = rainflow(Z,t);
-
-
-
+%for SG7-16 (200Hz)
+for i = 7:16  
+    if i ~= 12
+        str = ['Strain Gauge ', int2str(i)];
+        mean_val = mean(fsg{i});
+        min_val = min(fsg{i});
+        max_val = max(fsg{i});
+        dimm_val = 'um/m';
+        fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n %s',str,mean_val, dimm_val, max_val - min_val, dimm_val);
+        [fsgrf{i}.c,fsgrf{i}.hist,fsgrf{i}.edges,fsgrf{i}.rmm,fsgrf{i}.idx] = rainflow(fsg{i} , t_200hz); 
+    end
+    waitbar((i-6)/6,f);
+end
+close(f)
