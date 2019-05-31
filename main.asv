@@ -1,82 +1,30 @@
 
-
-
+% ASSUMING AXLE1 IS FRONT. MB1 SENSORS
+% PS1 PRIMARY SUSPENSION PROXIMITY SENSOR FRONT-LEFT 
+% PS2 PRIMARY SUSPENSION PROXIMITY SENSOR FRONT-RIGHT
+% PS3 PRIMARY SUSPENSION PROXIMITY SENSOR REAR-LEFT
+% PS4 PRIMARY SUSPENSION PROXIMITY SENSOR REAR-RIGHT
+% ACCELEROMETERS ON AXLE 1 (UNSPRUNG MASS)
+% ACC1 ACCELEROMETER FRONT-LEFT (VERTICAL)
+% ACC2 ACCELEROMETER FRONT-RIGHT (VERTICAL)
+% ACC3 ACCELEROMETER FRONT-RIGHT (HORIZONTAL)
+% SS1 SECONDARY SUSPENSION LEFT
+% SS2 SECONDARY SUSPENSION RIGHT
+% ASSUMING AXLE1 IS FRONT. TB3 SENSORS
+% SS3
 clear
 
-SNCurves;
+
 allocateMemory;
 accumulateData;
-filterStrainGauges;
-performRainflow;
+% filterStrainGauges;
+% performRainflow;
+% performMinersElementary;
 
 
 
-%% PerformMinersElementary
+%% Total kilometres
 
-% rf(1,:) cycles range (amplitude),
-% rf(2,:) cycles mean,
-% rf(3,:) cycles count,
-% rf(4,:) cycles start (time),
-% rf(5,:) cycles end (time),
-
-% %convert rainflow amplitudes from strain units (um/m) to MPa
-% %for SG1-7
-% f = waitbar(0, 'converting rf amplitudes and means to Pa');
-% for i = 1:7  
-%     rf{i}(1,:) = rf{i}(1,:) * 167000 * 1e-6;
-%     rf{i}(2,:) = rf{i}(2,:) * 167000 * 1e-6;
-%     waitbar(i/6,f);
-% end
-% 
-% %for SG8-16 
-% for i = 8:16  
-%     if i ~= 12
-%         rf{i}(1,:) = rf{i}(1,:) * 210000 * 1e-6;
-%         rf{i}(2,:) = rf{i}(2,:) * 210000 * 1e-6;
-%     end
-%     waitbar((i-6)/6,f);
-% end
-% close(f)
-
-f = waitbar(0, 'Performing Miners Elementary Rule');
-damagesg = zeros(length(rf));
-for i= 1 : length(rf)
-    if i ~= 12 
-       s = rf{i}(1,:);
-       n = rf{i}(3,:);
-%        N = interp1(FAT90S,FAT90N,s);
-       if i >= 1 && i => 6
-           N = NS(s,126.5,1e6,5);
-       end
-       if i == 7
-           N = NS(s,152.9,1e6,5);
-       end
-       if i >= 8 && i <= 10 || i == 13
-           N = NS(s,52.6,5e6,3);
-       end
-       if i => 15 && i =< 16 || i = 11
-           N = NS(s,46.2,5e6,3);
-       end
-       if i == 14
-           N = NS(s,41.5,5e6,3);
-       end
-       fraction = n ./ N;
-       
-       damagesg(i) = sum(fraction);
-    end
-   waitbar(i/length(rf),f);
-end
-close(f);
-% for i = 1: length(c
-% TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
-
-% % channel= length(channels{1,1}.data));
-%  time_array = (1:length(channels{1,1}.data));
-%  
-%  [c,hist,edges,rmm,idx] = rainflow(Z,t);
-%  
-% for i = 1: length(channels{1,1}.data)
-%     [c,hist,edges,rmm,idx] = rainflow(Z,t);
 
 
 

@@ -1,54 +1,43 @@
 
+% ASSUMING AXLE1 IS FRONT. MB1 SENSORS
+% PS1 PRIMARY SUSPENSION PROXIMITY SENSOR FRONT-LEFT (200Hz)
+% PS2 PRIMARY SUSPENSION PROXIMITY SENSOR FRONT-RIGHT (200Hz)
+% PS3 PRIMARY SUSPENSION PROXIMITY SENSOR REAR-LEFT(200Hz)
+% PS4 PRIMARY SUSPENSION PROXIMITY SENSOR REAR-RIGHT(200Hz)
+% ACCELEROMETERS ON AXLE 1 (UNSPRUNG MASS)
+% ACC1 ACCELEROMETER FRONT-LEFT (VERTICAL) (1000Hz)
+% ACC2 ACCELEROMETER FRONT-RIGHT (HORIZONTAL) (1000Hz) (or VERTICAL??)
+% ACC3 ACCELEROMETER FRONT-RIGHT (VERTICAL) (1000Hz)
+% SS1 SECONDARY SUSPENSION LEFT(200Hz)
+% SS2 SECONDARY SUSPENSION RIGHT(200Hz)
+% SG1 Caliper Mounting Bracket Front left (1000Hz)
+% SG2 Behind Primary Suspension Front left (1000Hz)
+% SG3 Top of the Bogie Frame Front Left (1000Hz)
+% SG4 Top of the Bogie Frame Front Right (1000Hz)
+% SG5 Bottom of the Bogie Frame Right (1000Hz)
+% SG6 Bottom of the Bogie Frame Left (1000Hz)
+% ASSUMING AXLE1 IS FRONT. TB3 SENSORS
+% SS3 SECONDARY SUSPENSION LEFT(200Hz)
+% SS4 SECONDARY SUSPENSION RIGHT(200Hz)
 
+% ASSUMING AXLE1 IS FRONT. MB3 SENSORS
+% SS5 SECONDARY SUSPENSION LEFT(200Hz)
+% SS6 SECONDARY SUSPENSION RIGHT(200Hz)
 
+% Speed (from wheels) signal (200Hz)
 clear
 
 
 allocateMemory;
 accumulateData;
-filterStrainGauges;
-performRainflow;
+% filterStrainGauges;
+% performRainflow;
+% performMinersElementary;
 
 
 
-%% PerformMinersElementary
-
-% rf(1,:) cycles range (amplitude),
-% rf(2,:) cycles mean,
-% rf(3,:) cycles count,
-% rf(4,:) cycles start (time),
-% rf(5,:) cycles end (time),
-
-f = waitbar(0, 'Performing Miners Elementary Rule');
-damages = zeros(length(rf),1);
-for i= 1 : length(rf)
-    if i ~= 12 
-       s = rf{i}(1,:);
-       n = rf{i}(3,:);
-       if i >= 1 && i <= 6
-           N = NS(s,126.5,1e6,5);
-       end
-       if i == 7
-           N = NS(s,152.9,1e6,5);
-       end
-       if i >= 8 && i <= 10 || i == 13
-           N = NS(s,52.6,5e6,3);
-       end
-       if i >= 15 && i <= 16 || i == 11
-           N = NS(s,46.2,5e6,3);
-       end
-       if i == 14
-           N = NS(s,41.5,5e6,3);
-       end
-       fraction = n ./ N;
-       
-       damages(i) = sum(fraction);
-    end
-   waitbar(i/length(rf),f);
-end
-close(f);
 %% Total kilometres
 
-kilometres = trapz(speed)*(1/200*3600);
+
 
 

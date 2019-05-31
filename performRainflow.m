@@ -18,31 +18,23 @@ for i = 1:6
     mean_val = mean(fsg{i});
     min_val = min(fsg{i});
     max_val = max(fsg{i});
-    dimm_val = 'um/m';
-    fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n %s',str,mean_val, dimm_val, max_val - min_val, dimm_val);
-    rf{i} = rainflow(fsg{i} * 167000e-6 , t_1000hz); 
+    dimm_val = 'MPa';
+    fprintf('Gauge = %s, mean value = %.3f %s, min = %.3f %s, max = %.3f %s \n',str,mean_val, dimm_val, min_val, dimm_val, max_val, dimm_val);
+    rf{i} = rainflow(fsg{i}  , t_1000hz); 
     waitbar(i/6,f);
 end
 
-%For SG7
-str = ['Strain Gauge ', int2str(7)];
-mean_val = mean(fsg{7});
-min_val = min(fsg{7});
-max_val = max(fsg{7});
-dimm_val = 'um/m';
-fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n %s',str,mean_val, dimm_val, max_val - min_val, dimm_val);
-rf{7} = rainflow(fsg{7}* 167000e-6 , t_200hz); 
 
-%for SG8-16 (200Hz)
-for i = 8:16  
+%for SG7-16 (200Hz)
+for i = 7:16  
     if i ~= 12
         str = ['Strain Gauge ', int2str(i)];
         mean_val = mean(fsg{i});
         min_val = min(fsg{i});
         max_val = max(fsg{i});
-        dimm_val = 'um/m';
-        fprintf('Gauge = %s, mean value = %.3f %s, range = %.3f\n %s',str,mean_val, dimm_val, max_val - min_val, dimm_val);
-        rf{i} = rainflow(fsg{i} * 210000e-6, t_200hz); 
+        dimm_val = 'MPa';
+        fprintf('Gauge = %s, mean value = %.3f %s, min = %.3f %s, max = %.3f %s \n',str,mean_val, dimm_val, min_val, dimm_val, max_val, dimm_val);
+        rf{i} = rainflow(fsg{i} , t_200hz); 
     end
     waitbar((i-6)/6,f);
 end

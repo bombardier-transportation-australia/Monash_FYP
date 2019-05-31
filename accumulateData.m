@@ -34,8 +34,9 @@ for i = 1: height(files)
         for j = 1 : 6
             ss{j}(position_200hz:position_200hz + record_length -1) = channels{j + 5}.data;
         end
-        for j = 7 :16
-            sg{j}(position_200hz:position_200hz + record_length -1) = channels{j + 7}.data;
+        sg{7}(position_200hz:position_200hz + record_length -1) = channels{14}.data * 167000e-6;
+        for j = 8 :16
+            sg{j}(position_200hz:position_200hz + record_length -1) = channels{j + 7}.data * 210000e-6;
         end
         acc4(position_200hz:position_200hz + record_length -1) = channels{11}.data;
         speed(position_200hz:position_200hz + record_length -1) = channels{12}.data;
@@ -51,7 +52,7 @@ for i = 1: height(files)
         t_1000hz(position_1000hz:position_1000hz + record_length - 1) = fileheader.t';
         %Sensor gauges (bogies)
         for j = 1:6
-            sg{j}(position_1000hz:position_1000hz + record_length -1) = channels{j}.data;
+            sg{j}(position_1000hz:position_1000hz + record_length -1) = channels{j}.data * 167000e-6;
         end
                 
         position_1000hz = position_1000hz + record_length;
@@ -63,11 +64,11 @@ for i = 1: height(files)
         acc1(position_2000hz:position_2000hz + record_length -1) = channels{1}.data;
         acc2(position_2000hz:position_2000hz + record_length -1) = channels{2}.data;
         acc3(position_2000hz:position_2000hz + record_length -1) = channels{3}.data;
-
-
-        
+       
         position_2000hz = position_2000hz + record_length;
     end
     waitbar(i/height(files),f);
 end
+
+clear channels fileheader files folder position_*hz length_*hz
 close(f);
