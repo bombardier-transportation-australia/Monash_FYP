@@ -11,7 +11,7 @@ for i = 1: height(files)
     path  = [files.folder{i} , '\', files.name{i}];
 
     [channels, fileheader] = loadDWHv4(path);  
-    %if the file is a 1Hz file
+    %For 1Hz %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if fileheader.ftast == 1
         record_length = length(channels{1}.data);
         t_1hz(position_1hz:position_1hz + record_length - 1) = fileheader.t';
@@ -23,7 +23,7 @@ for i = 1: height(files)
 
         position_1hz = position_1hz + record_length;
     end
-    %if the file is a 200Hz
+    %For 200Hz %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if fileheader.ftast == 200
         record_length = length(channels{1}.data);
         t_200hz(position_200hz:position_200hz + record_length - 1) = fileheader.t';
@@ -44,7 +44,7 @@ for i = 1: height(files)
 
         position_200hz = position_200hz + record_length;
     end
-    %for 1000Hz files
+    %for 1000Hz files %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if fileheader.ftast == 1000 && fileheader.AzCh == 6
         record_length = length(channels{1}.data);
 
@@ -56,7 +56,7 @@ for i = 1: height(files)
                 
         position_1000hz = position_1000hz + record_length;
     end
-    %for 2000Hz files
+    %for 2000Hz files %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if fileheader.ftast == 1000 && fileheader.AzCh == 3
         record_length = length(channels{1}.data);
         t_2000hz(position_2000hz:position_2000hz + record_length - 1) = fileheader.t';

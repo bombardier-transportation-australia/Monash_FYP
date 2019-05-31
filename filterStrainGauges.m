@@ -15,4 +15,5 @@ for i = 7:16
     fsg{i} = fsg{i}(1:length(sg{i}));
     waitbar((i-6)/6,f);
 end
+clear sg
 close(f)

@@ -1,29 +1,54 @@
 
 
-% 
-% clear
-% 
-% 
-% allocateMemory;
-% accumulateData;
-% filterStrainGauges;
-performRainflow;
 
+clear
+
+
+allocateMemory;
+accumulateData;
+filterStrainGauges;
+performRainflow;
 
 
 
 %% PerformMinersElementary
 
-% for i = 1: length(c
-% TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
+% rf(1,:) cycles range (amplitude),
+% rf(2,:) cycles mean,
+% rf(3,:) cycles count,
+% rf(4,:) cycles start (time),
+% rf(5,:) cycles end (time),
 
-% % channel= length(channels{1,1}.data));
-%  time_array = (1:length(channels{1,1}.data));
-%  
-%  [c,hist,edges,rmm,idx] = rainflow(Z,t);
-%  
-% for i = 1: length(channels{1,1}.data)
-%     [c,hist,edges,rmm,idx] = rainflow(Z,t);
+f = waitbar(0, 'Performing Miners Elementary Rule');
+damages = zeros(length(rf),1);
+for i= 1 : length(rf)
+    if i ~= 12 
+       s = rf{i}(1,:);
+       n = rf{i}(3,:);
+       if i >= 1 && i <= 6
+           N = NS(s,126.5,1e6,5);
+       end
+       if i == 7
+           N = NS(s,152.9,1e6,5);
+       end
+       if i >= 8 && i <= 10 || i == 13
+           N = NS(s,52.6,5e6,3);
+       end
+       if i >= 15 && i <= 16 || i == 11
+           N = NS(s,46.2,5e6,3);
+       end
+       if i == 14
+           N = NS(s,41.5,5e6,3);
+       end
+       fraction = n ./ N;
+       
+       damages(i) = sum(fraction);
+    end
+   waitbar(i/length(rf),f);
+end
+close(f);
+%% Total kilometres
 
+kilometres = trapz(speed)*(1/200*3600);
 
 
