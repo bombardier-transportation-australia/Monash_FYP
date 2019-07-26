@@ -30,12 +30,24 @@ clear
 
 allocateMemory;
 accumulateData;
-% filterStrainGauges;
+filterStrainGauges;
 % performRainflow;
 % performMinersElementary;
-
-
-
+figure;
+hold on;
+fsg{1} = fsg{1} - mean(fsg{1}) -9;
+plot(fsg{1})
+fsg{2} = fsg{2} - mean(fsg{2}) + 72.6;
+plot(fsg{2})
+fsg{3} = fsg{3} - mean(fsg{3}) + 8;
+plot(fsg{3})
+fsg{4} = fsg{4} - mean(fsg{4}) + 8;
+plot(fsg{4})
+fsg{5} = fsg{5} - mean(fsg{5}) + 58.6;
+plot(fsg{5})
+fsg{6} = fsg{6} - mean(fsg{6}) + 58.6;
+plot(fsg{6})
+legend('1','2','3','4','5','6');
 %% Total kilometres
 
 
