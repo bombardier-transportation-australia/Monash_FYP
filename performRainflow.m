@@ -26,16 +26,16 @@ end
 
 
 %for SG7-16 (200Hz)
-for i = 7:16  
-    if i ~= 12
-        str = ['Strain Gauge ', int2str(i)];
-        mean_val = mean(fsg{i});
-        min_val = min(fsg{i});
-        max_val = max(fsg{i});
-        dimm_val = 'MPa';
-        fprintf('Gauge = %s, mean value = %.3f %s, min = %.3f %s, max = %.3f %s \n',str,mean_val, dimm_val, min_val, dimm_val, max_val, dimm_val);
-        rf{i} = rainflow(fsg{i} , t_200hz); 
-    end
-    waitbar((i-6)/6,f);
-end
+% for i = 7:16  
+%     if i ~= 12
+%         str = ['Strain Gauge ', int2str(i)];
+%         mean_val = mean(fsg{i});
+%         min_val = min(fsg{i});
+%         max_val = max(fsg{i});
+%         dimm_val = 'MPa';
+%         fprintf('Gauge = %s, mean value = %.3f %s, min = %.3f %s, max = %.3f %s \n',str,mean_val, dimm_val, min_val, dimm_val, max_val, dimm_val);
+%         rf{i} = rainflow(fsg{i} , t_200hz); 
+%     end
+%     waitbar((i-6)/6,f);
+% end
 close(f)

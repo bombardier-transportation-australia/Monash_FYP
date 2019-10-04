@@ -3,7 +3,8 @@
 
 %TODO: ADD ABILITY TO HAVE MULTIPLE ROOT FOLDERS SO THAT A WEEK'S WORTH OF
 %DATA CAN BE SELECTED
-folder = uigetdir('.');
+% folder = uigetdir('.');
+folder = uigetdir('E:\DATA\6004 2014 10 28\Data');
 
 %Make a table with all the .dwh files contained within the root folder,
 %including subfolders
@@ -15,6 +16,7 @@ length_200hz = 0;
 length_1000hz = 0;
 length_2000hz = 0;
 f = waitbar(0, 'loading headers');
+
 %read headers to preassign memory space
 for i=1:height(files)
     path  = [files.folder{i} , '\', files.name{i}];
