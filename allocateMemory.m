@@ -24,21 +24,23 @@ for i=1:height(files)
     [~,fileheader] = loadDWHv4(path,1);
     %store the timestamp for each file in MATLAB datenum format in the
     %files table
-    datestring = strtrim([fileheader.Date, ' ', fileheader.Time]);
-    files.datenum(i) = datenum(datetime(datestring,'InputFormat','yy.MM.dd HH:mm:ss'));
-    %accumulate total length of each type of file
-    if fileheader.ftast == 1
-        length_1hz = length_1hz + fileheader.SamplesPerCh;
-    end
-    if fileheader.ftast == 200
-        length_200hz = length_200hz + fileheader.SamplesPerCh;
-    end
-    %for 1000Hz files
-    if fileheader.ftast == 1000 && fileheader.AzCh == 6
-        length_1000hz = length_1000hz + fileheader.SamplesPerCh;
-    end
-    if fileheader.ftast == 1000 && fileheader.AzCh == 3
-        length_2000hz = length_2000hz + fileheader.SamplesPerCh;
+    if ~isempty(fileheader)
+        datestring = strtrim([fileheader.Date, ' ', fileheader.Time]);
+        files.datenum(i) = datenum(datetime(datestring,'InputFormat','yy.MM.dd HH:mm:ss'));
+        %accumulate total length of each type of file
+        if fileheader.ftast == 1
+            length_1hz = length_1hz + fileheader.SamplesPerCh;
+        end
+        if fileheader.ftast == 200
+            length_200hz = length_200hz + fileheader.SamplesPerCh;
+        end
+        %for 1000Hz files
+        if fileheader.ftast == 1000 && fileheader.AzCh == 6
+            length_1000hz = length_1000hz + fileheader.SamplesPerCh;
+        end
+        if fileheader.ftast == 1000 && fileheader.AzCh == 3
+            length_2000hz = length_2000hz + fileheader.SamplesPerCh;
+        end
     end
     waitbar(i/height(files),f);
 end
