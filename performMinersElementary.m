@@ -6,22 +6,17 @@
 % rf(4,:) cycles start (time),
 % rf(5,:) cycles end (time),
 
-% currently the code is only using stress amplitude = s. 
-%This would be correct if mean stress is = 0. This is not the case for our project.
-%To add mean stress: s =rf{i}(1,:) + rf{i}(2,:); (amplitude + mean)
-
 f = waitbar(0, 'Performing Miners Elementary Rule');
 damages = zeros(length(rf),1);
-for i= 1 : length(rf)
-    if i ~= 12 
-        %Original code
-%        s = rf{i}(1,:);   
 
-       % modified code
-       s = rf{i}(:,1) + rf{i}(:,2);
-       n = rf{i}(:,3);
+for i= 1 : length(rf)
+%     if i ~= 12 
+
+       s = rf{i}(1,:);
+       n = rf{i}(3,:);
+       
        if i >= 1 && i <= 6
-           N = NS(s,126.5,1e6,5);
+           N = NS(abs(s),126.5,1e6,5);
        end
        
 %        if i == 7
@@ -41,13 +36,13 @@ for i= 1 : length(rf)
        damages(i) = sum(fraction);
     end
    waitbar(i/length(rf),f);
-end
+
 
 fprintf('\nDAMAGES\n');
 
 for i = 1:6
         str = ['Strain Gauge ', int2str(i)];
-        fprintf('Gauge = %s, damage = %1.10e \n',str, damages(i));
+        fprintf('Gauge = %s, damage = %1.20e \n',str, damages(i));
 end
 
 

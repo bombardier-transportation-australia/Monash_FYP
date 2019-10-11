@@ -12,6 +12,11 @@
 
 %for SG1-6 (1000Hz)
 f = waitbar(0, 'performing rainflow count');
+
+% to check against matlab's rainflow!
+% time_array = (1:length(fsg{1}));
+% TT = zeros(1,length(fsg{1}));
+
 for i = 1:6  
     
     str = ['Strain Gauge ', int2str(i)];
@@ -22,7 +27,13 @@ for i = 1:6
     fprintf('Gauge = %s, mean value = %.3f %s, min = %.3f %s, max = %.3f %s \n',str,mean_val, dimm_val, min_val, dimm_val, max_val, dimm_val);
     rf{i} = rainflow(fsg{i}  , t_1000hz); 
     waitbar(i/6,f);
+    
+%      to check against matlab's rainflow!
+%     [c,hist,edges,rmm,idx] = rainflow(fsg{i} , time_array);
+%     TT = array2table(c,'VariableNames',{'Count','Range','Mean','Start','End'});  
+    
 end
+
 
 
 %for SG7-16 (200Hz)

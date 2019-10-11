@@ -28,12 +28,15 @@ clear
 
 allocateMemory;
 accumulateData;
+
+% plot(t_200hz, speed)
+% legend('speed')
+
 filterStrainGauges;
 performRainflow;
 performMinersElementary;
 
-plot(t_200hz, speed)
-legend('speed')
+
 
 
 

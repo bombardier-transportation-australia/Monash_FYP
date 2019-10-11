@@ -13,8 +13,8 @@
 % title('SG1 & SG2');
 
 %% SPEED
-plot(t_200hz, speed)
-legend('speed')
+% plot(t_200hz, speed)
+% legend('speed')
 
 % % SG3, SG4, SPEED
 % figure
@@ -52,9 +52,9 @@ legend('speed')
 % legend('sg 3','sg 4','sg 5','sg 6')
 
 
-% figure;
+figure;
 % hold on;
-% plot(sg{1})
+plot(sg{1})
 % plot(sg{2})
 % plot(sg{3})
 % plot(sg{4})

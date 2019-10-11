@@ -1,5 +1,9 @@
 %% FilterStrainGauges
 
+figure;
+hold on;
+plot(sg{1})
+
 for i = 1:6      
     str = ['Strain Gauge ', int2str(i)];
     mean_val = mean(sg{1,i});
