@@ -1,5 +1,5 @@
 %% Accumulate data
-%accumulate instrumentation data
+% Used to accumulate instrumentation data
 
 position_1hz = 1;
 position_200hz = 1;

@@ -1,8 +1,8 @@
-%% AllocateMemory
+%% AllocateMemory.m -
+% file to preassign memory space for data being read.
+
 %Let user select root folder
 
-%TODO: ADD ABILITY TO HAVE MULTIPLE ROOT FOLDERS SO THAT A WEEK'S WORTH OF
-%DATA CAN BE SELECTED
 % folder = uigetdir('.');
 folder = uigetdir('E:\DATA\6004 2014 10 28\Data');
 

@@ -1,3 +1,5 @@
+%MAIN.M - Code that will control and specify what to ruin for Fatigue Analysis
+
 % ASSUMING AXLE1 IS FRONT. MB1 SENSORS
 % PS1 PRIMARY SUSPENSION PROXIMITY SENSOR FRONT-LEFT (200Hz)
 % PS2 PRIMARY SUSPENSION PROXIMITY SENSOR FRONT-RIGHT (200Hz)
@@ -29,14 +31,8 @@ clear
 allocateMemory;
 accumulateData;
 
-% plot(t_200hz, speed)
-% legend('speed')
-
 filterStrainGauges;
 performRainflow;
 performMinersElementary;
-
-
-
 
 

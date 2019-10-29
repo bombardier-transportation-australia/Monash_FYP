@@ -1,3 +1,5 @@
+% loadDWHv4.m file
+% used to load all the DWH files from The Instrumentation
 
 function [channels, fileheader] = loadDWHv4(Data_Path, varargin)
 

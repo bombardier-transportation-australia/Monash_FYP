@@ -1,7 +1,7 @@
 function [ y ] = vector2matrix( x, col, rowwise)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-    if isrow(x')
+% converts vector to matrix
+
+if isrow(x')
         x = x';
     end
     if mod(length(x),col) ~= 0 

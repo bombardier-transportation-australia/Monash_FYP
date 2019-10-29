@@ -1,10 +1,9 @@
+% file used to read dwh files
 
 clear
 [file,folder] = uigetfile('*.dwh');
 fullpath = fullfile(folder, file);
 [channels, fileheader] = loadDWHv4(fullpath); 
-
-
 
 if fileheader.ftast == 1
     len = length(channels{1}.data);
@@ -78,6 +77,4 @@ if fileheader.ftast == 1000 && fileheader.AzCh == 3
     xlabel('time(s)');
     ylabel('acceleration ms^-2');
 end
-
-
 

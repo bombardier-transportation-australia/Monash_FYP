@@ -1,4 +1,4 @@
-%% Perform Rainflow
+%% Perform Rainflow.m
 
 % for loop to display the mean values of each gauge (combined values) and
 % to graph each gauge's values against time.
@@ -34,7 +34,7 @@ for i = 1:6
     
 end
 
-
+% rf{1,1} = transpose(rf{1,1});
 
 %for SG7-16 (200Hz)
 % for i = 7:16  

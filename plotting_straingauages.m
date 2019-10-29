@@ -2,15 +2,27 @@
 % 
 %% SG1, SG2
 %11
-% figure
-% plot(t_1000hz,sg{1})
+figure
+plot(t_1000hz,sg{3})
 % hold on 
 % plot(t_1000hz, sg{2})
-% % plot(t_200hz, speed)
+% plot(t_200hz, speed)
 % hold off
-% % legend('sg 1','sg 2','speed')
+% legend('sg 1','sg 2','speed')
 % legend('sg 1','sg 2');
 % title('SG1 & SG2');
+ title('SG3');
+
+figure
+plot(t_1000hz,fsg{3})
+% hold on 
+% plot(t_1000hz, fsg{2})
+% plot(t_200hz, speed)
+% hold off
+% legend('sg 1','sg 2','speed')
+% legend('fsg 1','fsg 2');
+% title('fSG1 & fSG2');
+title('fSG3');
 
 %% SPEED
 % plot(t_200hz, speed)
@@ -52,9 +64,9 @@
 % legend('sg 3','sg 4','sg 5','sg 6')
 
 
-figure;
+% figure;
 % hold on;
-plot(sg{1})
+% plot(sg{1})
 % plot(sg{2})
 % plot(sg{3})
 % plot(sg{4})
